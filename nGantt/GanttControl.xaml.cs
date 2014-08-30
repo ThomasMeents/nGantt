@@ -1,35 +1,29 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using nGantt.GanttChart;
 using nGantt.PeriodSplitter;
 using System.Collections.ObjectModel;
 
 namespace nGantt
 {
-    public partial class GanttControl : UserControl
+    public partial class GanttControl
     {
         public enum SelectionMode
-        { 
+        {
             None,
             Single,
             Multiple
         }
 
-        private GanttChartData ganttChartData = new GanttChartData();
+        private readonly GanttChartData ganttChartData = new GanttChartData();
         private TimeLine gridLineTimeLine;
         private double selectionStartX;
-        private ObservableCollection<TimeLine> gridLineTimeLines = new ObservableCollection<TimeLine>();
+        private readonly ObservableCollection<TimeLine> gridLineTimeLines = new ObservableCollection<TimeLine>();
         public event EventHandler SelectedItemChanged;
         public event EventHandler<PeriodEventArgs> GanttRowAreaSelected;
 
@@ -39,21 +33,16 @@ namespace nGantt
         public ObservableCollection<ContextMenuItem> GanttTaskContextMenuItems { get; set; }
         public ObservableCollection<SelectionContextMenuItem> SelectionContextMenuItems { get; set; }
         public ObservableCollection<TimeLine> GridLineTimeLine { get { return gridLineTimeLines; } }
-        public SelectionMode TaskSelectionMode{get;set;}
+        public SelectionMode TaskSelectionMode { get; set; }
+
         public List<GanttTask> SelectedItems
         {
             get
             {
                 List<GanttTask> selectedItems = new List<GanttTask>();
                 foreach (var group in ganttChartData.RowGroups)
-                {
                     foreach (GanttRow row in group.Rows)
-                    {
-                        var items = from ganttTask in row.Tasks where ganttTask.IsSelected == true select ganttTask;
-                        foreach (var item in items)
-                            selectedItems.Add(item);
-                    }
-                }
+                        selectedItems.AddRange(from ganttTask in row.Tasks where ganttTask.IsSelected select ganttTask);
                 return selectedItems;
             }
         }
@@ -71,8 +60,8 @@ namespace nGantt
 
         public void Initialize(DateTime minDate, DateTime maxDate)
         {
-            this.ganttChartData.MinDate = minDate;
-            this.ganttChartData.MaxDate = maxDate;
+            ganttChartData.MinDate = minDate;
+            ganttChartData.MaxDate = maxDate;
         }
 
         public void AddGanttTask(GanttRow row, GanttTask task)
@@ -90,9 +79,12 @@ namespace nGantt
 
             var timeline = new TimeLine();
             foreach (var p in timeLineParts)
-            {
-                timeline.Items.Add(new TimeLineItem() { Name = PeriodNameFormatter(p), Start = p.Start, End = p.End.AddSeconds(-1) });
-            }
+                timeline.Items.Add(new TimeLineItem()
+                {
+                    Name = PeriodNameFormatter(p),
+                    Start = p.Start,
+                    End = p.End.AddSeconds(-1)
+                });
 
             ganttChartData.TimeLines.Add(timeline);
             return timeline;
@@ -112,7 +104,7 @@ namespace nGantt
 
             if (TaskSelectionMode == SelectionMode.Single)
                 DeselectAllTasks();
-            
+
             var gantTask = ((GanttTask)((FrameworkElement)(sender)).DataContext);
             gantTask.IsSelected = !gantTask.IsSelected;
 
@@ -123,13 +115,9 @@ namespace nGantt
         private void DeselectAllTasks()
         {
             foreach (var group in ganttChartData.RowGroups)
-            {
                 foreach (GanttRow row in group.Rows)
-                {
                     foreach (var task in row.Tasks)
                         task.IsSelected = false;
-                }
-            }
         }
 
         public GanttRowGroup CreateGanttRowGroup()
@@ -179,7 +167,6 @@ namespace nGantt
 
             gridLineTimeLines.Clear();
             gridLineTimeLines.Add(timeline);
-            //gridLineTimeLine = timeline;
         }
 
         #region "Handle selection rectangle -area"
@@ -191,13 +178,19 @@ namespace nGantt
 
             // TODO:: Set visibillity to hidden for all selectionRectangles
             var canvas = ((Canvas)UIHelper.FindVisualParent<Grid>(((DependencyObject)sender)).FindName("selectionCanvas"));
-            Border selectionRectangle = (Border)canvas.FindName("selectionRectangle");
-            selectionStartX = e.GetPosition(canvas).X;
-            selectionRectangle.Margin = new Thickness(selectionStartX, 0, 0, 5);
-            selectionRectangle.Visibility = Visibility.Visible;
-            selectionRectangle.IsEnabled = true;
-            selectionRectangle.IsHitTestVisible = false;
-            selectionRectangle.Width = 0;
+            if (canvas != null)
+            {
+                Border selectionRectangle = (Border)canvas.FindName("selectionRectangle");
+                selectionStartX = e.GetPosition(canvas).X;
+                if (selectionRectangle != null)
+                {
+                    selectionRectangle.Margin = new Thickness(selectionStartX, 0, 0, 5);
+                    selectionRectangle.Visibility = Visibility.Visible;
+                    selectionRectangle.IsEnabled = true;
+                    selectionRectangle.IsHitTestVisible = false;
+                    selectionRectangle.Width = 0;
+                }
+            }
         }
 
         private void selectionRectangle_MouseMove(object sender, MouseEventArgs e)
@@ -208,23 +201,24 @@ namespace nGantt
         private void ChangeSelectionRectangleSize(object sender, MouseEventArgs e)
         {
             var canvas = ((Canvas)UIHelper.FindVisualParent<Grid>(((DependencyObject)sender)).FindName("selectionCanvas"));
-            Border selectionRectangle = (Border)canvas.FindName("selectionRectangle");
-            if (selectionRectangle.IsEnabled)
+            if (canvas != null)
             {
-
-
-                double SelectionEndX = e.GetPosition(canvas).X;
-                double selectionWidth = SelectionEndX - selectionStartX;
-                if (selectionWidth > 0)
+                Border selectionRectangle = (Border)canvas.FindName("selectionRectangle");
+                if (selectionRectangle != null && selectionRectangle.IsEnabled)
                 {
-                    selectionRectangle.Width = selectionWidth;
-                }
-                else
-                {
-                    selectionWidth = -selectionWidth;
-                    double selectionRectangleStartX = selectionStartX - selectionWidth;
-                    selectionRectangle.Width = selectionWidth;
-                    selectionRectangle.Margin = new Thickness(selectionRectangleStartX, 0, 0, 5);
+                    double SelectionEndX = e.GetPosition(canvas).X;
+                    double selectionWidth = SelectionEndX - selectionStartX;
+                    if (selectionWidth > 0)
+                    {
+                        selectionRectangle.Width = selectionWidth;
+                    }
+                    else
+                    {
+                        selectionWidth = -selectionWidth;
+                        double selectionRectangleStartX = selectionStartX - selectionWidth;
+                        selectionRectangle.Width = selectionWidth;
+                        selectionRectangle.Margin = new Thickness(selectionRectangleStartX, 0, 0, 5);
+                    }
                 }
             }
         }
@@ -242,37 +236,48 @@ namespace nGantt
         private void StopSelection(object sender, MouseEventArgs e)
         {
             var canvas = ((Canvas)UIHelper.FindVisualParent<Grid>(((DependencyObject)sender)).FindName("selectionCanvas"));
-            Border selectionRectangle = (Border)canvas.FindName("selectionRectangle");
-
-            if (selectionRectangle.IsEnabled)
+            if (canvas != null)
             {
-                ChangeSelectionRectangleSize(sender, e);
-                selectionRectangle.IsEnabled = false;
-                selectionRectangle.IsHitTestVisible = true;
+                Border selectionRectangle = (Border)canvas.FindName("selectionRectangle");
 
-                if (selectionRectangle.Visibility == System.Windows.Visibility.Visible)
+                if (selectionRectangle != null && selectionRectangle.IsEnabled)
                 {
-                    if (GanttRowAreaSelected != null)
+                    ChangeSelectionRectangleSize(sender, e);
+                    selectionRectangle.IsEnabled = false;
+                    selectionRectangle.IsHitTestVisible = true;
+
+                    if (selectionRectangle.Visibility == Visibility.Visible)
                     {
-                        if (selectionRectangle.Width > 0)
-                        {
-                            double totalWidth = canvas.ActualWidth;
-                            var tsTaskStart = new TimeSpan(Convert.ToInt64((ganttChartData.MaxDate.Ticks - ganttChartData.MinDate.Ticks) * (selectionStartX / totalWidth)));
-                            var tsTaskEnd = new TimeSpan(Convert.ToInt64((ganttChartData.MaxDate.Ticks - ganttChartData.MinDate.Ticks) * ((selectionStartX + selectionRectangle.Width) / totalWidth)));
-                            var selctionStartDate = ganttChartData.MinDate.Add(tsTaskStart);
-                            var selctionEndDate = ganttChartData.MinDate.Add(tsTaskEnd);
-                            SelectionPeriod.Start = selctionStartDate;
-                            SelectionPeriod.End = selctionEndDate;
-                            GanttRowAreaSelected(this, new PeriodEventArgs() { SelectionStart = selctionStartDate, SelectionEnd = selctionEndDate });
-                        }
+                        if (GanttRowAreaSelected != null)
+                            if (selectionRectangle.Width > 0)
+                            {
+                                double totalWidth = canvas.ActualWidth;
+                                var tsTaskStart =
+                                    new TimeSpan(
+                                        Convert.ToInt64((ganttChartData.MaxDate.Ticks - ganttChartData.MinDate.Ticks) *
+                                                        (selectionStartX / totalWidth)));
+                                var tsTaskEnd =
+                                    new TimeSpan(
+                                        Convert.ToInt64((ganttChartData.MaxDate.Ticks - ganttChartData.MinDate.Ticks) *
+                                                        ((selectionStartX + selectionRectangle.Width) / totalWidth)));
+                                var selctionStartDate = ganttChartData.MinDate.Add(tsTaskStart);
+                                var selctionEndDate = ganttChartData.MinDate.Add(tsTaskEnd);
+                                SelectionPeriod.Start = selctionStartDate;
+                                SelectionPeriod.End = selctionEndDate;
+                                GanttRowAreaSelected(this,
+                                    new PeriodEventArgs()
+                                    {
+                                        SelectionStart = selctionStartDate,
+                                        SelectionEnd = selctionEndDate
+                                    });
+                            }
                     }
                 }
             }
         }
-        
+
         #endregion
 
-        
 
         private void selectionRectangle_ContextMenuOpening(object sender, ContextMenuEventArgs e)
         {

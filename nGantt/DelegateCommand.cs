@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Windows.Input;
 
 namespace nGantt
@@ -25,7 +22,7 @@ namespace nGantt
 
         public bool CanExecute(object parameter)
         {
-            return canExecute == null ? true : canExecute((T)parameter);
+            return canExecute == null || canExecute((T)parameter);
         }
         public event EventHandler CanExecuteChanged
         {

@@ -1,6 +1,8 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.30723.0
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "nGantt", "nGantt\nGantt.csproj", "{CCC54F28-5D20-4AB3-A1A8-C62CD2DA3AE7}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GanttDemo", "GanttDemo\GanttDemo.csproj", "{ED1B2A9D-A8AA-4720-8803-3FB36B4DD419}"
@@ -9,6 +11,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Doc", "Doc", "{85999C04-390
 	ProjectSection(SolutionItems) = preProject
 		README.md = README.md
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GanttDemoWPF", "GanttDemoWPF\GanttDemoWPF.csproj", "{E1CAD835-0234-45E3-AA04-008610163973}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -40,6 +44,16 @@ Global
 		{ED1B2A9D-A8AA-4720-8803-3FB36B4DD419}.Release|Mixed Platforms.Build.0 = Release|x86
 		{ED1B2A9D-A8AA-4720-8803-3FB36B4DD419}.Release|x86.ActiveCfg = Release|x86
 		{ED1B2A9D-A8AA-4720-8803-3FB36B4DD419}.Release|x86.Build.0 = Release|x86
+		{E1CAD835-0234-45E3-AA04-008610163973}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E1CAD835-0234-45E3-AA04-008610163973}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E1CAD835-0234-45E3-AA04-008610163973}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{E1CAD835-0234-45E3-AA04-008610163973}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{E1CAD835-0234-45E3-AA04-008610163973}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{E1CAD835-0234-45E3-AA04-008610163973}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E1CAD835-0234-45E3-AA04-008610163973}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E1CAD835-0234-45E3-AA04-008610163973}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{E1CAD835-0234-45E3-AA04-008610163973}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{E1CAD835-0234-45E3-AA04-008610163973}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

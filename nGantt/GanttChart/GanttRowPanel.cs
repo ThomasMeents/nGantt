@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Windows.Controls;
 using System.Windows;
 
@@ -55,9 +52,7 @@ namespace nGantt.GanttChart
         protected override Size MeasureOverride(Size availableSize)
         {
             foreach (UIElement child in Children)
-            {
                 child.Measure(availableSize);
-            }
 
             return new Size(0, 0);
         }
@@ -68,9 +63,7 @@ namespace nGantt.GanttChart
             double pixelsPerTick = finalSize.Width / range;
 
             foreach (UIElement child in Children)
-            {
                 ArrangeChild(child, MinDate, pixelsPerTick, finalSize.Height);
-            }
 
             return finalSize;
         }
@@ -89,7 +82,6 @@ namespace nGantt.GanttChart
             {
                 width = width + offset;
                 offset = 0;
-
             }
             
             double range = (MaxDate - MinDate).Ticks;

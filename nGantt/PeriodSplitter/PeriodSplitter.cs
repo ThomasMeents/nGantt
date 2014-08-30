@@ -1,16 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace nGantt.PeriodSplitter
 {
     public abstract class PeriodSplitter
     {
-        private List<Period> result = new List<Period>();
+        private readonly List<Period> result = new List<Period>();
         protected DateTime min;
         protected DateTime max;
-        public PeriodSplitter(DateTime min, DateTime max)
+
+        protected PeriodSplitter(DateTime min, DateTime max)
         {
             this.min = min;
             this.max = max;

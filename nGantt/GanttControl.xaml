@@ -94,15 +94,15 @@
     <DataTemplate x:Key="GanttRowTemplate">
         <Grid>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="100" ></ColumnDefinition>
-                <ColumnDefinition Width="1"></ColumnDefinition>
-                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="100"/>
+                <ColumnDefinition Width="1"/>
+                <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
-                <RowDefinition></RowDefinition>
-                <RowDefinition Height="1"></RowDefinition>
+                <RowDefinition/>
+                <RowDefinition Height="1"/>
             </Grid.RowDefinitions>
-            <TextBlock Grid.Column="0" Grid.Row="0" Text="{Binding Path=RowHeader.Name}" ToolTip="{Binding Path=RowHeader.Name}" Margin="15,5,0,0" TextWrapping="Wrap"></TextBlock>
+            <TextBlock Grid.Column="0" Grid.Row="0" Text="{Binding Path=RowHeader.Name}" ToolTip="{Binding Path=RowHeader.Name}" Margin="5,5,0,0" TextWrapping="Wrap" HorizontalAlignment="Left" VerticalAlignment="Center"/>
             <Grid Name="RowGrid" Grid.Column="2" Grid.Row="0" Width="Auto" Height="{Binding ElementName=RowHeightSlider, Path=Value}" Margin="0,5,0,5">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="{Binding ElementName=RowHeightSlider, Path=Value}"/>
@@ -124,7 +124,7 @@
                                 </ContextMenu.ItemContainerStyle>
                                 <ContextMenu.Style>
                                     <Style TargetType="{x:Type ContextMenu}">
-                                        <Setter Property="Visibility" Value="Visible"></Setter>
+                                        <Setter Property="Visibility" Value="Visible"/>
                                         <Style.Triggers>
                                             <Trigger Property="HasItems" Value="False">
                                                 <Setter Property="Visibility" Value="Hidden" />
@@ -150,7 +150,7 @@
                     </ItemsControl.ItemContainerStyle>
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
-                            <Border CornerRadius="3" MouseDown="Border_MouseDown" IsHitTestVisible="True" Padding="7,5,7,2" IsEnabled="{Binding IsEnabled}">
+                            <Border CornerRadius="{Binding Path=Radius}" MouseDown="Border_MouseDown" IsHitTestVisible="True" Padding="7,5,7,2" IsEnabled="{Binding IsEnabled}">
                                 <Border.ContextMenu>
                                     <ContextMenu ItemsSource="{Binding Path=DataContext.GanttTaskContextMenuItems, Source={x:Reference root}}">
                                         <ContextMenu.ItemTemplate>
@@ -166,7 +166,7 @@
                                         </ContextMenu.ItemContainerStyle>
                                         <ContextMenu.Style>
                                             <Style TargetType="{x:Type ContextMenu}">
-                                                <Setter Property="Visibility" Value="Visible"></Setter>
+                                                <Setter Property="Visibility" Value="Visible"/>
                                                 <Style.Triggers>
                                                     <Trigger Property="HasItems" Value="False">
                                                         <Setter Property="Visibility" Value="Hidden" />
@@ -178,7 +178,7 @@
                                 </Border.ContextMenu>
                                 <Border.ToolTip>
                                     <StackPanel Orientation="Vertical">
-                                        <Label Content="{Binding Path=Name}" FontWeight="Bold"></Label>
+                                        <Label Content="{Binding Path=Name}" FontWeight="Bold"/>
                                         <StackPanel Orientation="Horizontal">
                                             <TextBlock Text="{Binding Path=Start, StringFormat={}{0:yyyy-MM-dd}}"/>
                                             <TextBlock Text=" -> "/>
@@ -190,22 +190,18 @@
                                     <Style TargetType="Border">
                                         <Setter Property="Border.Background">
                                             <Setter.Value>
-                                                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                                                    <GradientStop Color="#FF2669A8" Offset="0"/>
-                                                    <GradientStop Color="#FF336FA8" Offset="0.112"/>
-                                                    <GradientStop Color="#FF4390D8" Offset="1"/>
-                                                </LinearGradientBrush>
+                                                <SolidColorBrush Color="{Binding Path=Color}"/>
                                             </Setter.Value>
                                         </Setter>
-                                        <Setter Property="BorderThickness" Value="1"></Setter>
-                                        <Setter Property="BorderBrush" Value="Gray"></Setter>
+                                        <Setter Property="BorderThickness" Value="1"/>
+                                        <Setter Property="BorderBrush" Value="Gray"/>
                                         <Style.Triggers>
                                             <Trigger Property="Border.IsMouseOver" Value="True">
                                                 <Setter Property="Border.Opacity" Value="0.9" />
                                             </Trigger>
                                             <DataTrigger Binding="{Binding Path=IsSelected}" Value="True">
-                                                <Setter Property="BorderThickness" Value="2"></Setter>
-                                                <Setter Property="BorderBrush" Value="#FFE08943"></Setter>
+                                                <Setter Property="BorderThickness" Value="2"/>
+                                                <Setter Property="BorderBrush" Value="#FFE08943"/>
                                             </DataTrigger>
                                         </Style.Triggers>
                                     </Style>
@@ -220,25 +216,23 @@
                                     </DockPanel>
                                         <Border Grid.Row="1" BorderBrush="DarkGray" BorderThickness="1" Height="8" Background="Gray" Visibility="{Binding TaskProgressVisibility}">
                                         <Border.ToolTip>
-                                            <TextBlock Text="{Binding PercentageCompletedText}"></TextBlock>
+                                            <TextBlock Text="{Binding PercentageCompletedText}"/>
                                         </Border.ToolTip>
                                             <Grid>
                                             <Border Name="VUMeter">
                                                 <Border.Background>
                                                     <LinearGradientBrush>
                                                         <LinearGradientBrush.GradientStops>
-                                                            <GradientStop Color="Red" Offset="0"></GradientStop>
-                                                            <GradientStop Color="Yellow" Offset="0.5"></GradientStop>
-                                                            <GradientStop Color="Green" Offset="1"></GradientStop>
+                                                            <GradientStop Color="Red" Offset="0"/>
+                                                            <GradientStop Color="Yellow" Offset="0.5"/>
+                                                            <GradientStop Color="Green" Offset="1"/>
                                                         </LinearGradientBrush.GradientStops>
                                                     </LinearGradientBrush>
                                                 </Border.Background>
                                             </Border>
                                             <Border HorizontalAlignment="Stretch" Background="Gray">
                                                 <Border.RenderTransform>
-                                                    <ScaleTransform  CenterX="{Binding ElementName=VUMeter, Path=ActualWidth}" ScaleX="{Binding PercentageCompleted}" ScaleY="1">
-
-                                                    </ScaleTransform>
+                                                    <ScaleTransform  CenterX="{Binding ElementName=VUMeter, Path=ActualWidth}" ScaleX="{Binding PercentageCompleted}" ScaleY="1"/>
                                                 </Border.RenderTransform>
                                             </Border>
 
@@ -250,8 +244,8 @@
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>
             </Grid>
-            <Rectangle Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="3" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Fill="Gray"></Rectangle>
-            <Rectangle Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Fill="Gray"></Rectangle>
+            <Rectangle Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="3" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Fill="Gray"/>
+            <Rectangle Grid.Column="1" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Fill="Gray"/>
         </Grid>
     </DataTemplate>
 
@@ -266,7 +260,7 @@
                                 <ColumnDefinition Width="4"/>
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
-                            <Image Grid.Column="0" Width="16" Height="16" VerticalAlignment="Center" Source="{Binding ImagePath}"></Image>
+                            <Image Grid.Column="0" Width="16" Height="16" VerticalAlignment="Center" Source="{Binding ImagePath}"/>
                             <ToggleButton Grid.Column="2" VerticalAlignment="Center"  IsChecked="{Binding IsExpanded, Mode=TwoWay, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Expander}}}">
                                 <ToggleButton.Template>
                                     <ControlTemplate>
@@ -280,8 +274,7 @@
                 <ItemsControl ItemsSource="{Binding Path=Rows}" >
                     <ItemsControl.ItemsPanel>
                         <ItemsPanelTemplate>
-                            <StackPanel Orientation="Vertical">
-                            </StackPanel>
+                            <StackPanel Orientation="Vertical"/>
                         </ItemsPanelTemplate>
                     </ItemsControl.ItemsPanel>
                     <ItemsControl.ItemTemplate>
@@ -308,25 +301,24 @@
     <DataTemplate DataType="{x:Type ng:HeaderedGanttRowGroup}">
         <Grid>
             <Grid.RowDefinitions>
-                <RowDefinition Height="auto"></RowDefinition>
-                <RowDefinition Height="auto"></RowDefinition>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
             </Grid.RowDefinitions>
-            <Border BorderThickness="0,1,0,1" CornerRadius="0" Opacity="0.7" Background="WhiteSmoke" Height="25" BorderBrush="DarkGray" Padding="3" Width="{Binding ElementName=Scroller, Path=ExtentWidth}">
+                <Border BorderThickness="0,1,0,1" CornerRadius="0" Opacity="0.7" Background="WhiteSmoke" Height="25" BorderBrush="DarkGray" Padding="3">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="auto"/>
                         <ColumnDefinition Width="4"/>
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
-                    <Image Grid.Column="0" Width="16" Height="16" VerticalAlignment="Center" Source="{Binding ImagePath}"></Image>
-                    <TextBlock Grid.Column="2" VerticalAlignment="Center" Text="{Binding Path=Name}" FontWeight="Bold" />
+                    <Image Grid.Column="0" Width="16" Height="16" VerticalAlignment="Center" Source="{Binding ImagePath}"/>
+                    <TextBlock Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Left" Text="{Binding Path=Name}" FontWeight="Bold" />
                 </Grid>
             </Border>
             <ItemsControl Grid.Row="1" ItemsSource="{Binding Path=Rows}" >
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
-                        <StackPanel Orientation="Vertical">
-                        </StackPanel>
+                        <StackPanel Orientation="Vertical"/>
                     </ItemsPanelTemplate>
                 </ItemsControl.ItemsPanel>
                 <ItemsControl.ItemTemplate>
@@ -341,15 +333,14 @@
     <DataTemplate DataType="{x:Type ng:GanttRowGroup}">
         <Grid>
             <Grid.RowDefinitions>
-                <RowDefinition Height="1"></RowDefinition>
-                <RowDefinition></RowDefinition>
+                <RowDefinition Height="1"/>
+                <RowDefinition/>
             </Grid.RowDefinitions>
-            <Rectangle  Fill="Gray" Height="1" HorizontalAlignment="Stretch" StrokeThickness="1" StrokeDashArray="5, 4, 2, 4" VerticalAlignment="Center"></Rectangle>
+            <Rectangle  Fill="Gray" Height="1" HorizontalAlignment="Stretch" StrokeThickness="1" StrokeDashArray="5, 4, 2, 4" VerticalAlignment="Center"/>
             <ItemsControl ItemsSource="{Binding Path=Rows}" Grid.Row="1">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
-                        <StackPanel Orientation="Vertical">
-                        </StackPanel>
+                        <StackPanel Orientation="Vertical"/>
                     </ItemsPanelTemplate>
                 </ItemsControl.ItemsPanel>
                 <ItemsControl.ItemTemplate>
@@ -364,22 +355,21 @@
     <DataTemplate x:Key="GanttGrid">
         <Grid Name="GanttMainGrid">
             <Grid.RowDefinitions>
-                <RowDefinition Height="auto"></RowDefinition>
-                <RowDefinition Height="1"></RowDefinition>
-                <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="1"/>
+                <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="100"></ColumnDefinition>
-                <ColumnDefinition Width="1"></ColumnDefinition>
-                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="100"/>
+                <ColumnDefinition Width="1"/>
+                <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-
             <!-- TimeLines -->
             <ContentControl Grid.Row="0" BorderBrush="Blue" BorderThickness="1"  Grid.Column="1" Grid.ColumnSpan="2" ContentTemplate="{StaticResource GanttTimeLineTemplate}" Content="{Binding Path=TimeLines}" Margin="0,0,18,0"/>
             <!-- Support rows -->
             <Rectangle Grid.Row="0" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Fill="Gray"/>
-            <Rectangle Grid.Row="1" Grid.ColumnSpan="3" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Fill="Gray"/>
-            <ScrollViewer Name="Scroller" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Visible" Grid.Row="2" Grid.ColumnSpan="3">
+            <Rectangle Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Fill="Gray"/>
+            <ScrollViewer Name="Scroller" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Visible" Grid.Row="2" Grid.ColumnSpan="3" Grid.Column="0">
                 <Grid>
                     <!-- Gridlines -->
                     <ContentControl ContentTemplate="{StaticResource GanttTimeLineGridLines}" Content="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}, Path=GridLineTimeLine}" Margin="100,0,1,0"/>
@@ -393,9 +383,9 @@
 
     <Grid Margin="0,5,0,0" x:Name="root" >
         <Grid.RowDefinitions>
-            <RowDefinition Height="*"></RowDefinition>
-            <RowDefinition Height="5"></RowDefinition>
-            <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="5"/>
+            <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
         <ContentControl Grid.Row="0" ContentTemplate="{StaticResource GanttGrid}" Content="{Binding Path=GanttData}"/>
         <StackPanel Orientation="Horizontal" Grid.Row="2">

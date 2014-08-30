@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Windows;
+using System.Windows.Media;
 
 namespace nGantt.GanttChart
 {
@@ -12,6 +10,8 @@ namespace nGantt.GanttChart
         public DateTime End { get; set; }
         public string Name { get; set; }
         public Visibility TaskProgressVisibility { get; set; }
+        public int Radius { get; set; }
+        public Color Color { get; set; }
         private double percentageCompleted;
 
         public GanttTask()
@@ -57,5 +57,6 @@ namespace nGantt.GanttChart
             }
         }
 
+        
     }
 }
