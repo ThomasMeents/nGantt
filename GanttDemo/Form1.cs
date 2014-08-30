@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using System.Collections.ObjectModel;
+using System.Windows.Media;
 using nGantt.GanttChart;
 using nGantt.PeriodSplitter;
 
@@ -51,7 +52,7 @@ namespace GanttDemo
 
         private void NewClicked(Period selectionPeriod)
         {
-            MessageBox.Show("New clicked for task " + selectionPeriod.Start.ToString() + " -> " + selectionPeriod.End.ToString());
+            MessageBox.Show("New clicked for task " + selectionPeriod.Start + " -> " + selectionPeriod.End);
         }
 
         private void ViewClicked(GanttTask ganttTask)
@@ -71,7 +72,7 @@ namespace GanttDemo
 
         void ganttControl1_GanttRowAreaSelected(object sender, PeriodEventArgs e)
         {
-            MessageBox.Show(e.SelectionStart.ToString() + " -> " + e.SelectionEnd.ToString());
+            MessageBox.Show(e.SelectionStart + " -> " + e.SelectionEnd);
         }
 
         private System.Windows.Media.Brush DetermineBackground(TimeLineItem timeLineItem)
@@ -99,22 +100,22 @@ namespace GanttDemo
             // Create and data
             var rowgroup1 = ganttControl1.CreateGanttRowGroup("HeaderdGanttRowGroup");
             var row1 = ganttControl1.CreateGanttRow(rowgroup1, "GanttRow 1");
-            ganttControl1.AddGanttTask(row1, new GanttTask() { Start = DateTime.Parse("2012-02-01"), End = DateTime.Parse("2012-03-01"), Name = "GanttRow 1:GanttTask 1", TaskProgressVisibility = System.Windows.Visibility.Hidden });
-            ganttControl1.AddGanttTask(row1, new GanttTask() { Start = DateTime.Parse("2012-03-05"), End = DateTime.Parse("2012-05-01"), Name = "GanttRow 1:GanttTask 2" });
-            ganttControl1.AddGanttTask(row1, new GanttTask() { Start = DateTime.Parse("2012-06-01"), End = DateTime.Parse("2012-06-15"), Name = "GanttRow 1:GanttTask 3" });
+            ganttControl1.AddGanttTask(row1, new GanttTask() { Start = DateTime.Parse("2012-02-01"), End = DateTime.Parse("2012-03-01"), Name = "GanttRow 1:GanttTask 1", TaskProgressVisibility = System.Windows.Visibility.Hidden, Color = Colors.CornflowerBlue});
+            ganttControl1.AddGanttTask(row1, new GanttTask() { Start = DateTime.Parse("2012-03-05"), End = DateTime.Parse("2012-05-01"), Name = "GanttRow 1:GanttTask 2", Color = Colors.CornflowerBlue });
+            ganttControl1.AddGanttTask(row1, new GanttTask() { Start = DateTime.Parse("2012-06-01"), End = DateTime.Parse("2012-06-15"), Name = "GanttRow 1:GanttTask 3", Color = Colors.CornflowerBlue });
 
             var rowgroup2 = ganttControl1.CreateGanttRowGroup("ExpandableGanttRowGroup", true);
             var row2 = ganttControl1.CreateGanttRow(rowgroup2, "GanttRow 2");
             var row3 = ganttControl1.CreateGanttRow(rowgroup2, "GanttRow 3");
-            ganttControl1.AddGanttTask(row2, new GanttTask() { Start = DateTime.Parse("2012-02-10"), End = DateTime.Parse("2012-03-10"), Name = "GanttRow 2:GanttTask 1" });
-            ganttControl1.AddGanttTask(row2, new GanttTask() { Start = DateTime.Parse("2012-03-25"), End = DateTime.Parse("2012-05-10"), Name = "GanttRow 2:GanttTask 2" });
-            ganttControl1.AddGanttTask(row2, new GanttTask() { Start = DateTime.Parse("2012-06-10"), End = DateTime.Parse("2012-09-15"), Name = "GanttRow 2:GanttTask 3", PercentageCompleted = 0.375 });
-            ganttControl1.AddGanttTask(row3, new GanttTask() { Start = DateTime.Parse("2012-01-07"), End = DateTime.Parse("2012-09-15"), Name = "GanttRow 3:GanttTask 1", PercentageCompleted = 0.5 });
+            ganttControl1.AddGanttTask(row2, new GanttTask() { Start = DateTime.Parse("2012-02-10"), End = DateTime.Parse("2012-03-10"), Name = "GanttRow 2:GanttTask 1", Color = Colors.CornflowerBlue });
+            ganttControl1.AddGanttTask(row2, new GanttTask() { Start = DateTime.Parse("2012-03-25"), End = DateTime.Parse("2012-05-10"), Name = "GanttRow 2:GanttTask 2", Color = Colors.CornflowerBlue });
+            ganttControl1.AddGanttTask(row2, new GanttTask() { Start = DateTime.Parse("2012-06-10"), End = DateTime.Parse("2012-09-15"), Name = "GanttRow 2:GanttTask 3", PercentageCompleted = 0.375, Color = Colors.DarkCyan });
+            ganttControl1.AddGanttTask(row3, new GanttTask() { Start = DateTime.Parse("2012-01-07"), End = DateTime.Parse("2012-09-15"), Name = "GanttRow 3:GanttTask 1", PercentageCompleted = 0.5, Color = Colors.DarkCyan });
 
             var rowgroup3 = ganttControl1.CreateGanttRowGroup();
             var row4 = ganttControl1.CreateGanttRow(rowgroup3, "GanttRow 4");
-            ganttControl1.AddGanttTask(row4, new GanttTask() { Start = DateTime.Parse("2012-02-14"), End = DateTime.Parse("2012-02-27"), Name = "GanttRow 4:GanttTask 1", PercentageCompleted = 1 });
-            ganttControl1.AddGanttTask(row4, new GanttTask() { Start = DateTime.Parse("2012-04-8"), End = DateTime.Parse("2012-09-19"), Name = "GanttRow 4:GanttTask 2" });
+            ganttControl1.AddGanttTask(row4, new GanttTask() { Start = DateTime.Parse("2012-02-14"), End = DateTime.Parse("2012-02-27"), Name = "GanttRow 4:GanttTask 1", PercentageCompleted = 1, Color = Colors.DarkCyan });
+            ganttControl1.AddGanttTask(row4, new GanttTask() { Start = DateTime.Parse("2012-04-8"), End = DateTime.Parse("2012-09-19"), Name = "GanttRow 4:GanttTask 2", Color = Colors.DarkCyan });
         }
 
         private string FormatYear(Period period)
